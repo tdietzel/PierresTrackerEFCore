@@ -8,14 +8,14 @@ namespace PierresTracker.Models
     public List<Order> Orders { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public int Id { get; set; }
+    public int VendorId { get; set; }
     private static int nextId = 1;
 
     public Vendor(string name, string description)
     {
       Name = name;
       Description = description;
-      Id = nextId++;
+      VendorId = nextId++;
       _instances.Add(this);
       Orders = new List<Order> ();
     }

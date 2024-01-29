@@ -1,41 +1,71 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using PierresTracker.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PierresTracker.Controllers
 {
   public class OrderController : Controller
   {
-    [HttpGet("/vendors/{id}/orders")]
-    public ActionResult Index(int id)
+    private readonly PierresTrackerContext _db;
+
+    public OrderController(PierresTrackerContext db)
     {
-      Dictionary<string, object> model = new Dictionary<string, object>();
+      _db = db;
+    }
 
-      Vendor selectedVendor = Vendor.Find(id);
-      List<Order> vendorOrders = selectedVendor.Orders;
-
-      model.Add("vendor", selectedVendor);
-      model.Add("orders", vendorOrders);
-
+    public ActionResult Index()
+    {
+      List<Order> model = _db.Orders.ToList();
       return View(model);
     }
 
-    [HttpGet("/vendors/{id}/orders/new")]
-    public ActionResult New(int id)
+    public ActionResult Create()
     {
-      Vendor selectedVendor = Vendor.Find(id);
-      return View(selectedVendor);
+      return View();
     }
-    
-    [HttpPost("/vendors/{id}/orders")]
-    public ActionResult Create(int id, string title, string description, int price, string date)
-    {
-      Vendor selectedVendor = Vendor.Find(id);
 
-      Order newOrder = new Order(title, description, price, date);
-      selectedVendor.Orders.Add(newOrder);
-    
-      return RedirectToAction("Index", new { id = selectedVendor.Id });
+    [HttpPost]
+    public ActionResult Create(Order order)
+    {
+      _db.Orders.Add(order);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      Order thisOrder = _db.Orders.FirstOrDefault(order => order.OrderId == id);
+      return View(thisOrder);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Order thisOrder = _db.Orders.FirstOrDefault(order => order.OrderId == id);
+      return View(thisOrder);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Order order)
+    {
+      _db.Orders.Update(order);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Order thisOrder = _db.Orders.FirstOrDefault(order => order.OrderId == id);
+      return View(thisOrder);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Order thisOrder = _db.Orders.FirstOrDefault(order => order.OrderId == id);
+      _db.Orders.Remove(thisOrder);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

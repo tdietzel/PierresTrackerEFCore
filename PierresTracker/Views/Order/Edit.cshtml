@@ -1,0 +1,25 @@
+@model PierresTracker.Models.Order
+
+<h2>Edit</h2>
+
+<h4>Edit this order: @Html.DisplayFor(model => model.Title)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.OrderId)
+
+  @Html.LabelFor(model => model.Title)
+  @Html.EditorFor(model => model.Title)
+  <br />
+  @Html.LabelFor(model => model.Description)
+  @Html.EditorFor(model => model.Description)
+  <br />
+  @Html.LabelFor(model => model.Price)
+  @Html.EditorFor(model => model.Price)
+  <br />
+  @Html.LabelFor(model => model.Date)
+  @Html.EditorFor(model => model.Date)
+
+  <input type="submit" value="Save" />
+}
+<p>@Html.ActionLink("Back to orders", "Index")</p>
