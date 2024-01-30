@@ -1,12 +1,21 @@
 @using PierresTracker.Models;
+@model List<PierresTracker.Models.Order>;
 
 <h1>Orders</h1>
 
-<ul>
+@if (@Model.Count == 0)
+{
+  <h3>No items have been added yet!</h3>
+} 
+else
+{
+  <ul>
   @foreach(Order order in Model)
   {
     <li>@Html.ActionLink($"{order.Title}", "Details", new { id = order.OrderId })</li>
   }
-</ul>
+  </ul>
+}
 
 <p>@Html.ActionLink("Add new item", "Create")</p>
+<p>@Html.ActionLink("Back to Vendors", "Index", "Vendor")</p>

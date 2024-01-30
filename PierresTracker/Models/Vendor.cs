@@ -11,6 +11,7 @@ namespace PierresTracker.Models
     public int VendorId { get; set; }
     private static int nextId = 1;
 
+    public Vendor(){}
     public Vendor(string name, string description)
     {
       Name = name;

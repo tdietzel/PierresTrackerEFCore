@@ -1,0 +1,18 @@
+@model PierresTracker.Models.Vendor
+
+<h2>Edit</h2>
+
+<h4>Edit this order: @Html.DisplayFor(model => model.Name)</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.VendorId)
+
+  @Html.LabelFor(model => model.Name)
+  @Html.EditorFor(model => model.Name)
+  <br />
+  @Html.LabelFor(model => model.Description)
+  @Html.EditorFor(model => model.Description)
+  <input type="submit" value="Save" />
+}
+<p>@Html.ActionLink("Back to vendors", "Index")</p>

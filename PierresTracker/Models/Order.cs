@@ -2,6 +2,8 @@ namespace PierresTracker.Models
 {
   public class Order
   {
+    public Vendor Vendor { get; set; }
+    public int VendorId { get; set; }
     public int OrderId { get; set; }
     private static int nextId = 1;
     public string Title { get; set; }
@@ -9,9 +11,7 @@ namespace PierresTracker.Models
     public int Price { get; set; }
     public string Date { get; set; }
 
-    public Order()
-    {
-    }
+    public Order() {}
     public Order(string title, string description, int price, string date)
     {
       Title = title;

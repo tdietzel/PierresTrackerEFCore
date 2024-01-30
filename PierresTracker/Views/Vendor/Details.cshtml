@@ -1,0 +1,27 @@
+@model PierresTracker.Models.Vendor
+@using PierresTracker.Models
+
+<h2>Vendor Details</h2>
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)<h3>
+<h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
+<p>@Html.ActionLink("Edit Vendor", "Edit", new { id = Model.VendorId })</p>
+<p>@Html.ActionLink("Delete Vendor", "Delete", new { id = Model.VendorId })</p>
+<hr />
+
+@if (@Model.Orders.Count == 0)
+{
+  <h3>No orders have been added to this vendor yet!</h3>
+} 
+else
+{
+  <h3>Current Orders:</h3>
+  <ul>
+    @foreach (Order order in Model.Orders)
+    {
+      <li>@Html.ActionLink($"{order.Title}", "Details", "Order", new { id = order.OrderId })</li>
+    }
+  </ul>
+}
+<hr />
+<p>@Html.ActionLink("Add new Order", "Create", "Order")</p>
+<p>@Html.ActionLink("Back to vendors", "Index")</p>

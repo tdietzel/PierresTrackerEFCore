@@ -1,27 +1,75 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 using System.Collections.Generic;
+using System.Linq;
+
 using PierresTracker.Models;
 
 namespace PierresTracker.Controllers
 {
   public class VendorController : Controller
   {
-    [HttpGet("/vendors")]
+    private readonly PierresTrackerContext _db;
+    public VendorController(PierresTrackerContext db)
+    {
+      _db = db;
+    }
+
     public ActionResult Index()
     {
-      List<Vendor> allVendors = Vendor.GetAll();
-      return View(allVendors);
+      List<Vendor> model = _db.Vendors.ToList();
+      return View(model);
     }
 
-    [HttpPost("/vendors")]
-    public ActionResult Create(string name, string description)
+    public ActionResult Create()
     {
-      Vendor newVendor = new Vendor(name, description);
-      return RedirectToAction("Index");
-      // return RedirectToAction("Index", "Home");
+      return View();
     }
 
-    [HttpGet("/vendors/new")]
-    public ActionResult New() { return View(); }
+    [HttpPost]
+    public ActionResult Create(Vendor vendor)
+    {
+      _db.Vendors.Add(vendor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Details(int id)
+    {
+      Vendor thisVendor = _db.Vendors
+        .Include(vendor => vendor.Orders)
+        .FirstOrDefault(vendor => vendor.VendorId == id);
+      return View(thisVendor);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Vendor thisVendor = _db.Vendors.FirstOrDefault(vendor => vendor.VendorId == id);
+      return View(thisVendor);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Vendor vendor)
+    {
+      _db.Vendors.Update(vendor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Vendor thisVendor = _db.Vendors.FirstOrDefault(vendor => vendor.VendorId == id);
+      return View(thisVendor);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult DeleteConfirmed(int id)
+    {
+      Vendor thisVendor = _db.Vendors.FirstOrDefault(vendor => vendor.VendorId == id);
+      _db.Vendors.Remove(thisVendor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }

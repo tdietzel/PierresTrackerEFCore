@@ -2,10 +2,11 @@
 
 <h2>Order Details</h2>
 <hr />
+<h3>@Html.DisplayNameFor(model => model.VendorId): @Html.DisplayFor(model => model.VendorId)</h3>
 <h3>@Html.DisplayNameFor(model => model.Title): @Html.DisplayFor(model => model.Title)<h3>
 <h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
 <h3>@Html.DisplayNameFor(model => model.Price): @Html.DisplayFor(model => model.Price)<h3>
 <h3>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)<h3></h3>
 <p>@Html.ActionLink("Edit Order", "Edit", new { id = Model.OrderId })</p>
-<p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.OrderId })</p>
-<p>@Html.ActionLink("Back to orders", "Index")</p>
+<p>@Html.ActionLink("Delete Order", "Delete", new { id = Model.OrderId })</p>
+<p>@Html.ActionLink("Back to Vendors", "Index", "Vendor")</p>
